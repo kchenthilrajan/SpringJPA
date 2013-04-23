@@ -1,0 +1,4 @@
+SpringJPA
+=========
+
+Example SpringJPA application
