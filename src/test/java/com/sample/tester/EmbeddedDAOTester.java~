@@ -1,0 +1,49 @@
+package com.sample.tester;
+
+import junit.framework.TestCase;
+
+import org.apache.log4j.Appender;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.sample.dao.UserDao;
+import com.sample.entities.UserDetail;
+
+
+public class EmbeddedDAOTester extends TestCase {
+    UserDao userDao;
+    EmbeddedDBServices embeddedDBServices;
+    
+    private static final Logger logger = Logger.getLogger(EmbeddedDAOTester.class);
+        
+    protected void setUp() throws Exception {
+    ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
+        "applicationContext.xml");
+    //setup the log
+    Appender appender = new ConsoleAppender(new PatternLayout("%d{HH:mm:ss,SSS} \u2013 %m%n"));
+    BasicConfigurator.configure(appender);
+    logger.getRootLogger().setLevel(Level.ERROR);
+    logger.setLevel(Level.INFO);
+    
+    userDao = (UserDao) applicationContext.getBean("userDao");
+
+    }
+    
+    public void test_save() {
+        UserDetail userDetail = new UserDetail();
+    userDetail.setUserId(1);
+    userDetail.setUserName("Freddy");
+    userDao.createUser(userDetail);
+    logger.info("User is successfully created");
+    logger.info("User names is: " + userDao.getAllUserNames()); 
+    }
+
+    public void test_saveEnvironment(){
+        
+    }
+}

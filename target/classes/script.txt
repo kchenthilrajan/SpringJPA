@@ -1,4 +1,0 @@
-CREATE TABLE UserDetail (
-	userId INT NOT NULL,
-	userName VARCHAR(10) NOT NULL,
-);
